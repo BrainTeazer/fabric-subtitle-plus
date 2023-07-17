@@ -1,0 +1,41 @@
+{
+	"schemaVersion": 1,
+	"id": "subtitleplus",
+	"version": "${mod_version}",
+	"name": "Subtitle Plus",
+	"description": "This is a Fabric mod for adding functionality to the Subtitles in Minecraft.",
+	"authors": [
+		"BrainTeazer"
+	],
+	"contact": {
+		"homepage": "https://fabricmc.net/",
+		"sources": "https://github.com/FabricMC/fabric-example-mod"
+	},
+	"license": "CC0-1.0",
+	"icon": "assets/subtitleplus/icon.png",
+	"environment": "*",
+	"entrypoints": {
+		"main": [
+			"com.brainteazer.SubtitlePlus"
+		],
+		"client": [
+			"com.brainteazer.SubtitlePlusClient"
+		]
+	},
+	"mixins": [
+		"subtitleplus.mixins.json",
+		{
+			"config": "subtitleplus.client.mixins.json",
+			"environment": "client"
+		}
+	],
+	"depends": {
+		"fabricloader": ">=0.14.21",
+		"minecraft": "~1.20.1",
+		"java": ">=17",
+		"fabric-api": "*"
+	},
+	"suggests": {
+		"another-mod": "*"
+	}
+}
