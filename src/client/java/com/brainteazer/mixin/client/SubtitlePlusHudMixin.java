@@ -1,5 +1,6 @@
 package com.brainteazer.mixin.client;
 
+import com.brainteazer.config.SubtitlePlusConfig;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.hud.SubtitlesHud;
 import net.minecraft.client.gui.hud.SubtitlesHud.SubtitleEntry;
@@ -18,43 +19,52 @@ import java.util.Objects;
 
 @Mixin(SubtitlesHud.class)
 public class SubtitlePlusHudMixin {
+    private static final SubtitlePlusConfig CONFIG = SubtitlePlusConfig.CONFIG;
         @Shadow
         @Final
         private MinecraftClient client;
 
+
     @Redirect(method = "onSoundPlayed", at = @At(value = "INVOKE", target = "Ljava/util/List;add(Ljava/lang/Object;)Z"))
-    private boolean setColor(List<Object> entries, Object entry, SoundInstance sound, WeightedSoundSet soundSet) {
+    private boolean showDistance(List<Object> entries, Object entry, SoundInstance sound, WeightedSoundSet soundSet) {
 
-        final boolean[] isNew = {true};
+        if (CONFIG.showDistance) {
 
-        // get the name of the sound
-        String subtitleText = Objects.requireNonNull(soundSet.getSubtitle()).getString();
 
-        // get the position of the sound
-        Vec3d soundPosition = new Vec3d(sound.getX(), sound.getY(), sound.getZ());
+            final boolean[] isNew = {true};
 
-        long distanceFromPlayer = getDistanceFromPlayer(soundPosition);
+            // get the name of the sound
+            String subtitleText = Objects.requireNonNull(soundSet.getSubtitle()).getString();
 
-        Text text = Text.of(subtitleText + " " + distanceFromPlayer);
+            // get the position of the sound
+            Vec3d soundPosition = new Vec3d(sound.getX(), sound.getY(), sound.getZ());
 
-        // create a new subtitle entry with position and name of sound
-        SubtitleEntry newEntry = new SubtitleEntry(text, soundPosition);
+            long distanceFromPlayer = getDistanceFromPlayer(soundPosition);
 
-        // check if the sound is already present in the entries (if yes, update the entry)
-        entries.forEach(e -> {
-            String entryText = ((SubtitleEntry) e).getText().getString();
-            if ( entryText.contains( subtitleText )) {
-                int index = entries.indexOf(e);
-                entries.set(index, newEntry);
-                isNew[0] = false;
+            Text text = Text.of(subtitleText + " " + distanceFromPlayer);
+
+            // create a new subtitle entry with position and name of sound
+            SubtitleEntry newEntry = new SubtitleEntry(text, soundPosition);
+
+            // check if the sound is already present in the entries (if yes, update the entry)
+            entries.forEach(e -> {
+                String entryText = ((SubtitleEntry) e).getText().getString();
+                if ( entryText.contains( subtitleText )) {
+                    int index = entries.indexOf(e);
+                    entries.set(index, newEntry);
+                    isNew[0] = false;
+                }
+            });
+
+            // add a new entry if the sound is not already present in the entries
+            if (isNew[0]) {
+                return entries.add(newEntry);
             }
-        });
-
-        // add a new entry if the sound is not already present in the entries
-        if (isNew[0]) {
-            return entries.add(newEntry);
+            return false;
         }
-        return false;
+        else {
+            return entries.add(entry);
+        }
     }
 
     long getDistanceFromPlayer(Vec3d position) {

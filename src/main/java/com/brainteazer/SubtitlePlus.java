@@ -1,5 +1,8 @@
 package com.brainteazer;
 
+import com.brainteazer.config.SubtitlePlusConfig;
+import me.shedaniel.autoconfig.AutoConfig;
+import me.shedaniel.autoconfig.serializer.GsonConfigSerializer;
 import net.fabricmc.api.ModInitializer;
 
 import net.fabricmc.fabric.api.item.v1.FabricItemSettings;
@@ -7,7 +10,6 @@ import net.minecraft.item.Item;
 import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
 import net.minecraft.util.Identifier;
-import net.minecraft.client.gui.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -20,10 +22,6 @@ public class SubtitlePlus implements ModInitializer {
 
 	public static final Item CUSTOM_ITEM = new Item(new FabricItemSettings());
 
-	private void SubtitlePlus() {
-
-		return;
-	}
 
 
 
@@ -34,7 +32,10 @@ public class SubtitlePlus implements ModInitializer {
 		// However, some things (like resources) may still be uninitialized.
 		// Proceed with mild caution.
 
+
 		Registry.register(Registries.ITEM, new Identifier("subtitleplus", "custom-item"), CUSTOM_ITEM);
 		LOGGER.info("Hello Fabric world!");
+
+
 	}
 }

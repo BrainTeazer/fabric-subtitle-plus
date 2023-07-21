@@ -1,0 +1,12 @@
+{
+  "key.subtitle_plus.open_config": "Open Config",
+  "key.category.subtitle_plus": "Subtitle Plus",
+
+  "title.subtitle_plus.config": "Subtitle Plus Config",
+  "category.config.general.subtitle_plus": "General",
+
+
+
+  "option.subtitle_plus.show_distance": "Show Distance",
+  "text.config.subtitle_plus-config.option.isEnabled": "Enabled"
+}

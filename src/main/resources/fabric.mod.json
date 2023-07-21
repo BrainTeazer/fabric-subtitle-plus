@@ -1,7 +1,7 @@
 {
 	"schemaVersion": 1,
 	"id": "subtitleplus",
-	"version": "${mod_version}",
+	"version": "${version}",
 	"name": "Subtitle Plus",
 	"description": "This is a Fabric mod for adding functionality to the Subtitles in Minecraft.",
 	"authors": [
@@ -20,7 +20,11 @@
 		],
 		"client": [
 			"com.brainteazer.SubtitlePlusClient"
+		],
+		"modmenu": [
+			"com.brainteazer.integration.ModMenuIntegration"
 		]
+
 	},
 	"mixins": [
 		"subtitleplus.mixins.json",
